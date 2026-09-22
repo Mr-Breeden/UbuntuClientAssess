@@ -472,16 +472,6 @@ The terminal CLI and the v2.0.6 localhost browser interface are both supported p
 - Application files outside derived/default scope may require `--data-root` or `--include-path`.
 - The v2.0.6 web interface is loopback-only and is not a remote multi-user service.
 
-## Development and release validation
-
-Run the regression suite:
-
-```bash
-python3 -m pytest -q
-```
-
-Release packaging also checks Python compilation, shell syntax, CLI/version output, archive integrity/hygiene, documentation/client-name hygiene, and a fresh-extraction regression run.
-
 ## Documentation
 
 - `README.md` — installation, operation, artifacts, recovery, CLI usage, and architecture overview.
