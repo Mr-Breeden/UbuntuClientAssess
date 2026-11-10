@@ -130,13 +130,13 @@ python3 -m pip install -r requirements-dev.txt
 Start the v2.0.6 browser interface with:
 
 ```bash
-python3 ubuntuclientassess.py --gui
+python3 uca.py --gui
 ```
 
 The web server binds to `127.0.0.1` only and uses **port 9001 by default**. A browser is opened automatically when possible. To use a different port:
 
 ```bash
-python3 ubuntuclientassess.py --gui --port 8765
+python3 uca.py --gui --port 8765
 ```
 
 Useful web-interface options:
@@ -180,7 +180,7 @@ Manual runtime collection launched from the browser does not request `sudo`. Sta
 Interactive mode:
 
 ```bash
-python3 ubuntuclientassess.py
+python3 uca.py
 ```
 
 Main menu:
@@ -219,7 +219,7 @@ Full Assessment performs pre-install capture, installation/configuration, post-i
 Example non-interactive parameters for a Debian package:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --assessment-name "Example Assessment" \
   --installer ./application.deb \
   --output ./Assessments \
@@ -233,7 +233,7 @@ By default, a Debian package should not already be installed at baseline. Use `-
 Static package/installer analysis without the full pre/install/post workflow:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --assessment-name "Example Assessment" \
   --installer ./application.deb \
   --output ./Assessments \
@@ -259,13 +259,13 @@ UbuntuClientAssess derives application scope from package metadata, installed pa
 Run after a completed Full Assessment:
 
 ```bash
-python3 ubuntuclientassess.py --runtime-observe /path/to/assessment
+python3 uca.py --runtime-observe /path/to/assessment
 ```
 
 For timed collection:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --runtime-observe /path/to/assessment \
   --runtime-observe-seconds 30
 ```
@@ -279,7 +279,7 @@ Runtime evidence is committed through the shared application service under asses
 Open a completed Full Assessment:
 
 ```bash
-python3 ubuntuclientassess.py --review /path/to/assessment
+python3 uca.py --review /path/to/assessment
 ```
 
 Review is organized by security area and related groups. In the browser, the Review Queue and validation procedure scroll independently, Status/Tester Notes/Save controls remain available below the guidance pane, and category/status filters can be combined to focus on Pending or completed items. Disposition colors provide a quick visual completion cue. Shared validation facts can be reused where the underlying context is unchanged, but every distinct review item keeps its own disposition and impact validation.
@@ -319,7 +319,7 @@ No generated review candidate does **not** mean an area was tested and found sec
 Verify a finalized assessment:
 
 ```bash
-python3 ubuntuclientassess.py --verify-assessment /path/to/assessment
+python3 uca.py --verify-assessment /path/to/assessment
 ```
 
 Verification covers the assessment manifest, tester-facing reports, supporting state, retained extraction inventories, expected artifact inventory, and atomic-write cleanup.
@@ -327,19 +327,19 @@ Verification covers the assessment manifest, tester-facing reports, supporting s
 If a generated tester report was modified externally, check status/recovery:
 
 ```bash
-python3 ubuntuclientassess.py --assessment-status /path/to/assessment
+python3 uca.py --assessment-status /path/to/assessment
 ```
 
 Safe derived-report regeneration can be run directly:
 
 ```bash
-python3 ubuntuclientassess.py --repair-generated-reports /path/to/assessment
+python3 uca.py --repair-generated-reports /path/to/assessment
 ```
 
 If a state-changing transaction was interrupted, recover its pre-operation state before continuing:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --recover-interrupted-operation /path/to/assessment
 ```
 
@@ -350,7 +350,7 @@ State-changing application-service operations use per-assessment locking, optimi
 After all Guided Review items are resolved and assessment integrity passes:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --create-client-appendix /path/to/assessment
 ```
 
@@ -434,7 +434,7 @@ Assessment configuration:
 --version
 ```
 
-Use `python3 ubuntuclientassess.py --help` for the authoritative argument list.
+Use `python3 uca.py --help` for the authoritative argument list.
 
 ## Application-service contract and GUI readiness
 
