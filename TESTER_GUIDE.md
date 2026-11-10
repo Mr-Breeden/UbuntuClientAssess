@@ -1,7 +1,7 @@
 
 ## Web interface
 
-Launch the local browser console with `python3 ubuntuclientassess.py --gui`. The default port is `9001`; override it with `--port PORT`. The server binds only to `127.0.0.1`. The GUI supports starting new assessments, browsing for the assessment root and installer package, completed-assessment overview, Guided Review, manual Start / Stop runtime observation, report viewing, integrity/recovery actions, and ClientAppendix export. For a Full Assessment, the GUI pauses after the pre-install snapshot and gives you the exact package-install command to run in a terminal; sudo passwords, sign-in credentials, and first-run setup stay outside the browser. Return to the GUI and choose **Installation and Setup Complete — Continue** to capture the post-install state and finish analysis.
+Launch the local browser console with `python3 uca.py --gui`. The default port is `9001`; override it with `--port PORT`. The server binds only to `127.0.0.1`. The GUI supports starting new assessments, browsing for the assessment root and installer package, completed-assessment overview, Guided Review, manual Start / Stop runtime observation, report viewing, integrity/recovery actions, and ClientAppendix export. For a Full Assessment, the GUI pauses after the pre-install snapshot and gives you the exact package-install command to run in a terminal; sudo passwords, sign-in credentials, and first-run setup stay outside the browser. Return to the GUI and choose **Installation and Setup Complete — Continue** to capture the post-install state and finish analysis.
 
 # UbuntuClientAssess v2.0.6 Tester Guide
 
@@ -43,7 +43,7 @@ The tester HTML shows the same security-area progress and related-group labels. 
 For normal interactive use, launch UbuntuClientAssess without arguments:
 
 ```bash
-python3 ubuntuclientassess.py
+python3 uca.py
 ```
 
 The main menu provides:
@@ -62,7 +62,7 @@ Choose **Start New Assessment** to enter the standard assessment prompts. Review
 
 ```bash
 source .venv/bin/activate
-python3 ubuntuclientassess.py
+python3 uca.py
 ```
 
 Add any known application-data location even when it does not yet exist, for example `--data-root ~/.vendor-client`. Choose Full Assessment, supply the installer, and confirm the intended installation method. Complete vendor setup/application exercise when prompted and continue exercising it during the short network-observation window. Newly created top-level home paths are shown for confirmation before post-capture.
@@ -76,7 +76,7 @@ Choose Installer Analysis Only when the package should be reviewed without insta
 For unattended static analysis:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --non-interactive \
   --installer-analysis-only \
   --installer /path/to/package.deb \
@@ -90,13 +90,13 @@ For Full Assessment, perform guided runtime observation after the base assessmen
 In the browser, choose **Start Observation**, exercise all relevant application workflows without a countdown, then choose **Stop & Save Observation**. Use **Cancel Observation** to discard the current capture. The GUI applies a 60-minute safety limit to abandoned captures.
 
 ```bash
-python3 ubuntuclientassess.py --runtime-observe /path/to/assessment
+python3 uca.py --runtime-observe /path/to/assessment
 ```
 
 Or use a fixed observation window:
 
 ```bash
-python3 ubuntuclientassess.py \
+python3 uca.py \
   --runtime-observe /path/to/assessment \
   --runtime-observe-seconds 30
 ```
@@ -110,7 +110,7 @@ Treat runtime correlation as supporting evidence. Faster sampling and recent TCP
 ## Review Order
 
 1. `tester_review.txt` — start here. Work the HIGH-priority items first, then MEDIUM/LOW. Priority directs testing effort and is not vulnerability severity.
-2. Use `python3 ubuntuclientassess.py --review /path/to/assessment`. Each v1.6.2 item includes a junior-friendly validation playbook with exact commands/procedure, interpretation guidance, secure/vulnerable outcomes, and stop/do-not-report conditions. Generic prerequisite and cleanup/restoration sections are intentionally omitted because the framework assumes authorized testing on disposable tester VMs. Sudoers, PolicyKit, D-Bus, Unix-socket/FIFO, ELF, privilege-helper, network/update, storage, and permission-boundary candidates receive category-specific guidance. Add sanitized notes, choose PENDING / VALIDATED / NOT APPLICABLE / INFORMATIONAL, then use Save & Next to continue.
+2. Use `python3 uca.py --review /path/to/assessment`. Each v1.6.2 item includes a junior-friendly validation playbook with exact commands/procedure, interpretation guidance, secure/vulnerable outcomes, and stop/do-not-report conditions. Generic prerequisite and cleanup/restoration sections are intentionally omitted because the framework assumes authorized testing on disposable tester VMs. Sudoers, PolicyKit, D-Bus, Unix-socket/FIFO, ELF, privilege-helper, network/update, storage, and permission-boundary candidates receive category-specific guidance. Add sanitized notes, choose PENDING / VALIDATED / NOT APPLICABLE / INFORMATIONAL, then use Save & Next to continue.
 3. `evidence_guide.txt` — use the suggested evidence bookmarks when a condition becomes a validated finding; add screenshots to the final Word report, not these text files.
 4. `assessment_report.html` — use the live tester dashboard to review all queue items, automatic finding candidates, dispositions, tester notes, manual-review items, module status, and supporting evidence.
 5. `module_status.txt` — confirm every expected module passed and resolve every `ATTN` limitation.
@@ -126,10 +126,10 @@ Treat runtime correlation as supporting evidence. Faster sampling and recent TCP
 Use the main-menu **Assessment Status / Recovery** option or:
 
 ```bash
-python3 ubuntuclientassess.py --assessment-status /path/to/assessment
-python3 ubuntuclientassess.py --resume-assessment /path/to/assessment
-python3 ubuntuclientassess.py --repair-generated-reports /path/to/assessment
-python3 ubuntuclientassess.py --recover-interrupted-operation /path/to/assessment
+python3 uca.py --assessment-status /path/to/assessment
+python3 uca.py --resume-assessment /path/to/assessment
+python3 uca.py --repair-generated-reports /path/to/assessment
+python3 uca.py --recover-interrupted-operation /path/to/assessment
 ```
 
 Recovery is deliberately conservative. If trustworthy pre- and post-installation snapshots exist, v1.4 can rerun post-analysis/finalization. If installation started or changed machine state but a trustworthy post-installation snapshot was not captured, the framework recommends reverting the disposable Ubuntu VM to its clean snapshot and restarting the assessment. Do not use resume to legitimize an unknown installation baseline.
@@ -145,7 +145,7 @@ If integrity verification shows that only generated tester reports such as `find
 Run verification after copying, archiving, or transferring an assessment:
 
 ```bash
-python3 ubuntuclientassess.py --verify-assessment /path/to/assessment
+python3 uca.py --verify-assessment /path/to/assessment
 ```
 
 Exit code `0` means the finalized report set, required supporting files, and extracted-payload tree hashes match the manifest. Exit code `9` means the set is missing, unexpected, altered, or incompatible with the verifier version.
@@ -155,7 +155,7 @@ Exit code `0` means the finalized report set, required supporting files, and ext
 After the assessment is complete and reviewed, create the technical client-delivery appendix with:
 
 ```bash
-python3 ubuntuclientassess.py --create-client-appendix /path/to/assessment
+python3 uca.py --create-client-appendix /path/to/assessment
 ```
 
 The command verifies source integrity first, confirms the guided tester review queue has no PENDING items, then refreshes `ClientAppendix/`. Resolve remaining items with `--review` before export. Full Assessment exports the package/application, installation/privilege, and runtime/surface technical reports. Installer Analysis Only exports the applicable installer/profile/runtime subset. The export intentionally omits automated finding candidates, tester workflow/coverage artifacts, module/tool QA output, manifests, snapshots, and all `working/` content.
